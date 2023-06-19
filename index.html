@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Soundboard App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab" id="soundboardTab">Soundboard</div>
+      <div class="tab" id="configTab">Configuration</div>
+    </div>
+
+    <!-- Soundboard tab-->
+    <div class="tab-content" id="soundboardContent">
+      <!-- Dynamically populated -->
+    </div>
+
+    <!-- Config tab -->
+    <div class="tab-content" id="configContent">
+      <textarea id="configTextArea"></textarea>
+      <div class="button-container">
+        <button id="saveButton">Save</button>
+        <button id="revertButton">Revert</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load scripts at the end of the body -->
+  <script src="renderer.js"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>

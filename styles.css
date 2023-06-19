@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin: 0;
+}
+
+h1 {
+    color: #333;
+}
+
+#soundboardContent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 1px;
+    gap: 1px;
+}
+
+#soundboardContent > button {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    width: 150px;
+    height: 150px;
+}
+
+#soundboardContent > button:hover {
+    background-color: #eee;
+    border: 1px solid black;
+}
+
+/** tabbed interface **/
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border-bottom: none;
+}
+
+.tab-content {
+  display: none;
+}
+
+.active {
+  background-color: #ccc;
+}
+
+.show {
+  display: block;
+}
+
+/** config text area **/
+#configTextArea {
+  min-height: 50svh;
+  width: 100%;
+}
