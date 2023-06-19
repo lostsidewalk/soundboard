@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const configTextArea = document.getElementById('configTextArea');
   const saveButton = document.getElementById('saveButton');
   const revertButton = document.getElementById('revertButton');
-  const errorContainer = document.getElementById('errorContainer');
+  const configErrorContainer = document.getElementById('configErrorContainer');
 
   soundboardTab.addEventListener('click', () => {
     soundboardContent.style.display = 'block';
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         button.addEventListener('click', () => {
           console.log(`Playing sound: ${sound.name}`);
-          // TODO: Implement your logic to play the sound here
+          playSound(sound.file);
         });
 
         soundboardContent.appendChild(button);
@@ -42,8 +42,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Function to play the sound
+  function playSound(soundPath) {
+    // Create an audio element
+    const audio = new Audio(soundPath);
+
+    // Play the audio
+    audio.play()
+      .then(() => {
+        console.log('Sound playback started');
+      })
+      .catch((error) => {
+        alert('Error playing sound:' + error);
+      });
+  }
+
   saveButton.addEventListener('click', () => {
-    errorContainer.textContent = ''; // Clear the error message
+    configErrorContainer.textContent = ''; // Clear the error message
     try {
       const configContent = JSON.parse(configTextArea.value);
       const validationResult = isValidConfiguration(configContent);
@@ -52,30 +67,30 @@ document.addEventListener('DOMContentLoaded', () => {
         // Configuration is valid, proceed with saving
         console.log('Saving configuration: ', JSON.stringify(configContent));
         ipcRenderer.invoke('saveConfiguration', JSON.stringify(configContent)).then(() => {
-          errorContainer.textContent = 'Configuration saved successfully';
+          configErrorContainer.textContent = 'Configuration saved successfully';
           reloadSoundEntries();
         }).catch((error) => {
-          errorContainer.textContent = 'Error saving configuration: ' + error;
+          configErrorContainer.textContent = 'Error saving configuration: ' + error;
         });
       } else {
         // Configuration is invalid, display the error message
-        errorContainer.textContent = 'Invalid configuration';
+        configErrorContainer.textContent = 'Invalid configuration';
       }
     } catch (error) {
       // Configuration is invalid, display the error message
-      errorContainer.textContent = 'Error parsing configuration: ' + error;
+      configErrorContainer.textContent = 'Error parsing configuration: ' + error;
     }
   });
 
   revertButton.addEventListener('click', () => {
-    errorContainer.textContent = ''; // Clear the error message
+    configErrorContainer.textContent = ''; // Clear the error message
     ipcRenderer.invoke('revertConfiguration').then((configuration) => {
       const pp = JSON.stringify(configuration, null, 4);
       configTextArea.value = pp;
-      errorContainer.textContent = 'Configuration reverted to the original';
+      configErrorContainer.textContent = 'Configuration reverted to the original';
       reloadSoundEntries();
     }).catch((error) => {
-      errorContainer.textContent = 'Error reverting configuration: ' + error;
+      configErrorContainer.textContent = 'Error reverting configuration: ' + error;
     });
   });
 

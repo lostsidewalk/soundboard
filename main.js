@@ -46,12 +46,6 @@ function createWindow() {
     return loadConfiguration('soundboard-config.json');
   });
 
-  // Handle the event when a sound button is clicked
-  ipcMain.on('play-sound', (event, soundPath) => {
-    // Play the sound here using your preferred method (e.g., Web Audio API or HTML5 <audio> element)
-    console.log(`Playing sound: ${soundPath}`);
-  });
- 
   soundboard.on('closed', () => {
     soundboard = null;
   });
