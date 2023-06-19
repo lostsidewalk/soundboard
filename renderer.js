@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const configTextArea = document.getElementById('configTextArea');
   const saveButton = document.getElementById('saveButton');
   const revertButton = document.getElementById('revertButton');
+  const errorContainer = document.getElementById('errorContainer');
 
   soundboardTab.addEventListener('click', () => {
     soundboardContent.style.display = 'block';
@@ -24,14 +25,38 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   saveButton.addEventListener('click', () => {
-    const configContent = configTextArea.value;
-    // TODO: Implement saving the config content to the file system
-    console.log('Saving configuration:', configContent);
+    errorContainer.textContent = ''; // Clear the error message
+    try {
+      const configContent = JSON.parse(configTextArea.value);
+      const validationResult = isValidConfiguration(configContent);
+
+      if (validationResult === true) {
+        // Configuration is valid, proceed with saving
+        console.log('Saving configuration: ', JSON.stringify(configContent));
+        ipcRenderer.invoke('saveConfiguration', JSON.stringify(configContent)).then(() => {
+          errorContainer.textContent = 'Configuration saved successfully';
+        }).catch((error) => {
+          errorContainer.textContent = 'Error saving configuration: ' + error;
+        });
+      } else {
+        // Configuration is invalid, display the error message
+        errorContainer.textContent = 'Invalid configuration';
+      }
+    } catch (error) {
+      // Configuration is invalid, display the error message
+      errorContainer.textContent = 'Error parsing configuration: ' + error;
+    }
   });
 
   revertButton.addEventListener('click', () => {
-    // TODO: Implement reverting the config content to the original configuration file
-    console.log('Reverting configuration');
+    errorContainer.textContent = ''; // Clear the error message
+    ipcRenderer.invoke('revertConfiguration').then((configuration) => {
+      const pp = JSON.stringify(configuration, null, 4);
+      configTextArea.value = pp;
+      errorContainer.textContent = 'Configuration reverted to the original';
+    }).catch((error) => {
+      errorContainer.textContent = 'Error reverting configuration: ' + error;
+    });
   });
 
   // Set the initial active tab
@@ -53,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   ipcRenderer.invoke('getConfiguration').then((configuration) => {
-    let pp = JSON.stringify(configuration, null, 4);
+    const pp = JSON.stringify(configuration, null, 4);
     configTextArea.value = pp;
-  })
+  });
 });
