@@ -7,27 +7,31 @@
   <link rel="stylesheet" href="dist/output.css">
 </head>
 
-<body>
-  <div class="container">
+<body class="bg-gray-200">
+  <div class="container mx-auto p-4">
     <!-- Tabs -->
-    <div class="tabs">
-      <div class="tab" id="soundboardTab">Soundboard</div>
-      <div class="tab" id="configTab">Configuration</div>
+    <div class="flex mb-4">
+      <div class="tab bg-gray-300 text-gray-800 py-2 px-4 rounded-l cursor-pointer active" id="soundboardTab">Soundboard</div>
+      <div class="tab bg-gray-300 text-gray-800 py-2 px-4 rounded-r cursor-pointer" id="configTab">Configuration</div>
     </div>
 
     <!-- Soundboard tab-->
-    <div class="tab-content" id="soundboardContent">
+    <div class="tab-content bg-white rounded shadow" id="soundboardContent">
       <!-- Dynamically populated -->
     </div>
 
     <!-- Config tab -->
-    <div class="tab-content" id="configContent">
-      <textarea id="configTextArea"></textarea>
+    <div class="tab-content bg-white rounded p-4 shadow hidden" id="configContent">
+      <textarea id="configTextArea" class="w-full p-2 border border-gray-300 rounded mb-4"></textarea>
       <div class="button-container">
-        <button id="saveButton">Save</button>
-        <button id="revertButton">Revert</button>
+        <button id="saveButton" class="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Save
+        </button>
+        <button id="revertButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          Revert
+        </button>
       </div>
-      <div id="configErrorContainer" />
+      <div id="configErrorContainer" class="mt-4"></div>
     </div>
 
   </div>

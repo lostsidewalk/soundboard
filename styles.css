@@ -5,68 +5,50 @@
 @tailwind utilities;
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f3f3f3;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f3f3f3;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    margin: 0;
-}
-
-h1 {
-    color: #333;
+  margin: 0;
 }
 
 #soundboardContent {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: 1px;
-    gap: 1px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1px;
+  gap: 10px;
 }
 
-#soundboardContent > button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    width: 150px;
-    height: 150px;
+#soundboardContent>button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  width: 150px;
+  height: 150px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 4px;
+  border: 1px solid lightgrey;
+  padding: 2px;
+  margin: 15px;
 }
 
-#soundboardContent > button:hover {
-    background-color: #eee;
-    border: 1px solid black;
+#soundboardContent>button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 /** tabbed interface **/
 
-.tabs {
-  display: flex;
-}
-
-.tab {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #f0f0f0;
-  border-bottom: none;
-}
-
-.tab-content {
-  display: none;
-}
-
-.active {
-  background-color: #ccc;
-}
-
-.show {
-  display: block;
-}
 
 /** config text area **/
 #configTextArea {
   min-height: 50svh;
-  width: 100%;
+}
+
+.active {
+  background-color: lightgreen !important;
 }
