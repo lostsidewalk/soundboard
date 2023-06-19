@@ -1,3 +1,9 @@
+/** npx tailwindcss -i ./styles.css -o ./dist/output.css --watch **/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f3f3f3;
