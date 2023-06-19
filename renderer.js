@@ -24,6 +24,24 @@ document.addEventListener('DOMContentLoaded', () => {
     configTab.classList.add('active');
   });
 
+  function reloadSoundEntries() {
+    soundboardContent.innerHTML = '';
+    // Retrieve sound entries from the main process
+    ipcRenderer.invoke('getSoundEntries').then((soundEntries) => {
+      soundEntries.forEach((sound) => {
+        const button = document.createElement('button');
+        button.textContent = sound.name;
+
+        button.addEventListener('click', () => {
+          console.log(`Playing sound: ${sound.name}`);
+          // TODO: Implement your logic to play the sound here
+        });
+
+        soundboardContent.appendChild(button);
+      });
+    });
+  }
+
   saveButton.addEventListener('click', () => {
     errorContainer.textContent = ''; // Clear the error message
     try {
@@ -35,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Saving configuration: ', JSON.stringify(configContent));
         ipcRenderer.invoke('saveConfiguration', JSON.stringify(configContent)).then(() => {
           errorContainer.textContent = 'Configuration saved successfully';
+          reloadSoundEntries();
         }).catch((error) => {
           errorContainer.textContent = 'Error saving configuration: ' + error;
         });
@@ -54,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const pp = JSON.stringify(configuration, null, 4);
       configTextArea.value = pp;
       errorContainer.textContent = 'Configuration reverted to the original';
+      reloadSoundEntries();
     }).catch((error) => {
       errorContainer.textContent = 'Error reverting configuration: ' + error;
     });
@@ -62,20 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set the initial active tab
   soundboardTab.click();
 
-  // Retrieve sound entries from the main process
-  ipcRenderer.invoke('getSoundEntries').then((soundEntries) => {
-    soundEntries.forEach((sound) => {
-      const button = document.createElement('button');
-      button.textContent = sound.name;
-
-      button.addEventListener('click', () => {
-        console.log(`Playing sound: ${sound.name}`);
-        // TODO: Implement your logic to play the sound here
-      });
-
-      soundboardContent.appendChild(button);
-    });
-  });
+  reloadSoundEntries();
 
   ipcRenderer.invoke('getConfiguration').then((configuration) => {
     const pp = JSON.stringify(configuration, null, 4);
